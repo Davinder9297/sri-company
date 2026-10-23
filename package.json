@@ -1,0 +1,27 @@
+{
+  "name": "sri-company-gift-boxes",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sri Company — personalised dry-fruit gift box store (Express + SQLite)",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js",
+    "images": "node scripts/fetch-images.js",
+    "normalize": "node scripts/normalize-images.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.8.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.5"
+  }
+}

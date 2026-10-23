@@ -1,0 +1,411 @@
+[
+ {
+  "id": "almond-flourentine-round",
+  "name": "Almond Flourentine Round",
+  "ratePerKg": 2600.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "almond-roca",
+  "name": "Almond Roca",
+  "ratePerKg": 1880.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "badam",
+  "name": "Badam",
+  "ratePerKg": 1140.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "blueberry-badam",
+  "name": "Blueberry Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "coated-almonds",
+  "name": "Coated Almonds",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "date-almonds",
+  "name": "Date Almonds",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "flavoured-badam",
+  "name": "Flavoured Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "mamra-badam",
+  "name": "Mamra Badam",
+  "ratePerKg": 3450.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "masala-badam",
+  "name": "Masala Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "namkeen-badam",
+  "name": "Namkeen Badam",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "paan-badam",
+  "name": "Paan Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "piri-piri-badam",
+  "name": "Piri Piri Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "pizza-badam",
+  "name": "Pizza Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "premium-badam",
+  "name": "Premium Badam",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "rose-badam",
+  "name": "Rose Badam",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Almonds"
+ },
+ {
+  "id": "blueberry",
+  "name": "Blueberry",
+  "ratePerKg": 1880.0,
+  "image": "",
+  "group": "Berries"
+ },
+ {
+  "id": "cranberry",
+  "name": "Cranberry",
+  "ratePerKg": 780.0,
+  "image": "",
+  "group": "Berries"
+ },
+ {
+  "id": "masala-cranberry",
+  "name": "Masala Cranberry",
+  "ratePerKg": 940.0,
+  "image": "",
+  "group": "Berries"
+ },
+ {
+  "id": "breakfast-mix",
+  "name": "Breakfast Mix",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Bites & mixes"
+ },
+ {
+  "id": "crunchies",
+  "name": "Crunchies",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Bites & mixes"
+ },
+ {
+  "id": "date-bites",
+  "name": "Date Bites",
+  "group": "Bites & mixes",
+  "ratePerKg": 1480.0
+ },
+ {
+  "id": "delightful-bites",
+  "name": "Delightful Bites",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Bites & mixes"
+ },
+ {
+  "id": "fruity-bites",
+  "name": "Fruity Bites",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Bites & mixes"
+ },
+ {
+  "id": "healthy-bites",
+  "name": "Healthy Bites",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Bites & mixes"
+ },
+ {
+  "id": "kunafa-bar",
+  "name": "Kunafa Bar",
+  "group": "Bites & mixes",
+  "ratePerKg": 2050.0
+ },
+ {
+  "id": "kunafa-bite",
+  "name": "Kunafa Bite",
+  "group": "Bites & mixes",
+  "ratePerKg": 2050.0
+ },
+ {
+  "id": "sugarfree-bites",
+  "name": "Sugarfree Bites",
+  "ratePerKg": 1880.0,
+  "image": "",
+  "group": "Bites & mixes"
+ },
+ {
+  "id": "trail-mix",
+  "name": "Trail Mix",
+  "group": "Bites & mixes",
+  "ratePerKg": 1480.0
+ },
+ {
+  "id": "achari-kaju",
+  "name": "Achari Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "barbeque-kaju",
+  "name": "Barbeque Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "blueberry-kaju",
+  "name": "Blueberry Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "cheese-herbs-kaju",
+  "name": "Cheese Herbs Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "flavoured-kaju",
+  "name": "Flavoured Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "italian-herbs-kaju",
+  "name": "Italian Herbs Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "jalepeno-kaju",
+  "name": "Jalepeno Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "kaju",
+  "name": "Kaju",
+  "ratePerKg": 1180.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "lemon-basil-kaju",
+  "name": "Lemon Basil Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "mango-chilli-kaju",
+  "name": "Mango Chilli Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "namkeen-kaju",
+  "name": "Namkeen Kaju",
+  "ratePerKg": 1380.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "pineapple-pepper-kaju",
+  "name": "Pineapple Pepper Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "piri-piri-kaju",
+  "name": "Piri Piri Kaju",
+  "ratePerKg": 1580.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "premium-kaju",
+  "name": "Premium Kaju",
+  "ratePerKg": 1380.0,
+  "image": "",
+  "group": "Cashews"
+ },
+ {
+  "id": "flavoured-pista",
+  "name": "Flavoured Pista",
+  "ratePerKg": 1680.0,
+  "image": "",
+  "group": "Pistachios"
+ },
+ {
+  "id": "namkeen-pista",
+  "name": "Namkeen Pista",
+  "ratePerKg": 1880.0,
+  "image": "",
+  "group": "Pistachios"
+ },
+ {
+  "id": "premium-namkeen-pista",
+  "name": "Premium Namkeen Pista",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Pistachios"
+ },
+ {
+  "id": "bubble-gum-kishmish",
+  "name": "Bubble Gum Kishmish",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "coated-raisins",
+  "name": "Coated Raisins",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "flavoured-kishmish",
+  "name": "Flavoured Kishmish",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "kishmish-green",
+  "name": "Kishmish Green",
+  "ratePerKg": 880.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "kishmish-sandukani",
+  "name": "Kishmish Sandukani",
+  "ratePerKg": 1880.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "paan-kishmish",
+  "name": "Paan Kishmish",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "peru-chilli-kishmish",
+  "name": "Peru Chilli Kishmish",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "premium-kishmish",
+  "name": "Premium Kishmish",
+  "ratePerKg": 880.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "watermelon-kishmish",
+  "name": "Watermelon Kishmish",
+  "ratePerKg": 1280.0,
+  "image": "",
+  "group": "Raisins"
+ },
+ {
+  "id": "akrot-magaz",
+  "name": "Akrot Magaz",
+  "ratePerKg": 1880.0,
+  "image": "",
+  "group": "Walnuts, figs & dates"
+ },
+ {
+  "id": "anjeer",
+  "name": "Anjeer",
+  "ratePerKg": 1840.0,
+  "image": "",
+  "group": "Walnuts, figs & dates"
+ },
+ {
+  "id": "dates-pastry",
+  "name": "Date Pastry",
+  "ratePerKg": 1480.0,
+  "image": "",
+  "group": "Walnuts, figs & dates"
+ },
+ {
+  "id": "khajoor-dry",
+  "name": "Khajoor Dry",
+  "ratePerKg": 480.0,
+  "image": "",
+  "group": "Walnuts, figs & dates"
+ },
+ {
+  "id": "khurbani",
+  "name": "Khurbani",
+  "ratePerKg": 880.0,
+  "image": "",
+  "group": "Walnuts, figs & dates"
+ }
+]

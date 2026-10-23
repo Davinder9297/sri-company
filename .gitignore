@@ -1,0 +1,14 @@
+node_modules
+.env
+.DS_Store
+*.zip
+
+# runtime data: lives on the server only, back it up separately
+data/store.sqlite*
+data/payment-proofs
+data/originals
+
+# box and filling photos are managed from Admin on the server
+public/uploads/products/*
+public/uploads/fillings/*
+!public/uploads/*/.gitkeep

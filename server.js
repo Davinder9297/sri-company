@@ -13,7 +13,7 @@ import { linkLocalPhotos, cacheRemoteImages, applyBasePhotos } from './lib/image
 import { seedCatalogue } from './seed.js';
 import { normalizeProductPhotos } from './lib/normalize.js';
 
-const CATALOGUE_VERSION = '2026-diwali-v3';
+const CATALOGUE_VERSION = '2026-diwali-v4';
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC = path.join(ROOT, 'public');
 const app = express();

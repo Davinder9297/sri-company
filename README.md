@@ -67,16 +67,7 @@ Retail box prices were set from your purchase cost × 1.3 (rounded to ₹5) — 
 
 - Normal boxes (`Nx1`): N compartments. Cardboard sizes follow the PART column (8×8 = 4, 8×12 = 6, 10×10 = 4, 10×15 = 6, 12×12 = 4, 12×18 = 6).
 - Layouts written `A+B` (4+2, 4+1, 4+4, 2+2): **A** = fillable jars/compartments. The extra B items are candles or a chocolate tray, not dry-fruit compartments. Example: 1205/1215/1225 = 4 jars (+ 2 candle tins).
-- MN29 (11×11) has 6 cells. 404 (10×15) is one open tray, so 1 compartment.
+- MN29 (11×11) has 6 cells. 404 (10×15) is an open tray; set to 6 partitions at ₹450 as requested.
 - To change any box, edit `compartments` in `data/products.json` and bump `CATALOGUE_VERSION` in `server.js`.
 
-## Deploying (Git)
-
-Live server: `/var/www/sri-company` on 145.79.13.134, PM2 app `sri-company` (port 3002), Nginx + Let's Encrypt for
-sricompany.in, www, admin and api. The server folder is a clone of this repository.
-
-1. Commit and push to `main`.
-2. Go live: `ssh root@145.79.13.134 /var/www/sri-company/scripts/deploy.sh` (pulls `main`, runs `npm ci` only when
-   `package.json` / `package-lock.json` changed, restarts the app and checks it responds).
-
-`.env`, the database, payment proofs, photo originals and uploaded photos are not in Git; they stay on the server.
+- Fillings hidden from customers (`"active": false` in `data/fillings.json`): Almond Roca, Almond Florentine Round, and every individual flavour (Achari/Barbeque/... Kaju, Masala/Paan/... Badam, Bubble Gum/... Kishmish, Coated). Customers see only Flavoured Badam, Flavoured Kaju, Flavoured Kishmish and Flavoured Pista. They can be switched back on in Admin > Fillings, but the next catalogue refresh follows the JSON file.

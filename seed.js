@@ -21,13 +21,14 @@ export function seedCatalogue({ refreshPrices = false } = {}) {
       source_image=CASE WHEN products.source_image='' THEN excluded.source_image ELSE products.source_image END,
       image=CASE WHEN products.image='' THEN excluded.image ELSE products.image END`);
   const addF = db.prepare(`
-    INSERT INTO fillings(id,name,grp,rate_per_kg,image,active) VALUES(@id,@name,@group,@ratePerKg,'',1)
+    INSERT INTO fillings(id,name,grp,rate_per_kg,image,active) VALUES(@id,@name,@group,@ratePerKg,'',@active)
     ON CONFLICT(id) DO UPDATE SET name=excluded.name, grp=excluded.grp,
-      rate_per_kg=CASE WHEN @refresh=1 THEN excluded.rate_per_kg ELSE fillings.rate_per_kg END`);
+      rate_per_kg=CASE WHEN @refresh=1 THEN excluded.rate_per_kg ELSE fillings.rate_per_kg END,
+      active=CASE WHEN @refresh=1 THEN excluded.active ELSE fillings.active END`);
 
   db.transaction(() => {
     for (const p of products) addP.run({ stock: 0, trackStock: 0, ...p, trackStock: p.trackStock ? 1 : 0, image: p.image || '', refresh: refreshPrices ? 1 : 0 });
-    for (const f of fillings) addF.run({ ...f, refresh: refreshPrices ? 1 : 0 });
+    for (const f of fillings) addF.run({ active: 1, ...f, active: f.active === false ? 0 : 1, refresh: refreshPrices ? 1 : 0 });
   })();
   const linked = linkLocalPhotos() + applyBasePhotos();
   return { products: products.length, fillings: fillings.length, linked };

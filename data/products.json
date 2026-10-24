@@ -1777,9 +1777,9 @@
   "capacityGrams": 600,
   "design": "404",
   "size": "10x15",
-  "compartments": 1,
+  "compartments": 6,
   "image": "https://drive.google.com/thumbnail?id=1S3y2LrmVQE-B3qsCtG5WDE3uwFL11Pbg&sz=w1200",
-  "sellingPrice": 155.0,
+  "sellingPrice": 450.0,
   "sortSize": 150,
   "stock": 90,
   "trackStock": true

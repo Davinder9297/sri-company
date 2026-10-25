@@ -49,7 +49,14 @@ export function calc(item) {
     return { filling, grams: f.grams, amount: filling && f.grams ? r2(filling.ratePerKg * f.grams / 1000) : 0 };
   });
   const fillTotal = r2(lines.reduce((s, l) => s + l.amount, 0));
-  const unit = r2((product?.price || 0) + fillTotal);
-  return { product, lines, boxPrice: product?.price || 0, fillTotal, unit, total: r2(unit * (item.quantity || 1)), totalGrams: item.fillings.reduce((s, f) => s + (f.grams || 0), 0) };
+  const packing = product?.packingPrice || 0;
+  const unit = r2((product?.price || 0) + fillTotal + packing);
+  return { product, lines, boxPrice: product?.price || 0, packing, fillTotal, unit, total: r2(unit * (item.quantity || 1)), totalGrams: item.fillings.reduce((s, f) => s + (f.grams || 0), 0) };
 }
 export const cartTotal = () => r2(state.cart.reduce((s, c) => s + calc(c).total, 0));
+export const gstPercent = () => Number(state.store?.gstPercent ?? 5);
+/** Subtotal (boxes + fillings + packing), GST and grand total. */
+export function cartTotals() {
+  const subtotal = cartTotal(), pct = gstPercent(), gst = r2(subtotal * pct / 100);
+  return { subtotal, pct, gst, total: r2(subtotal + gst) };
+}

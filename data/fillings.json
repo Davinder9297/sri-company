@@ -20,8 +20,9 @@
   "name": "Badam",
   "ratePerKg": 1140.0,
   "image": "",
-  "group": "Almonds",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 2
  },
  {
   "id": "blueberry-badam",
@@ -33,27 +34,30 @@
  },
  {
   "id": "coated-almonds",
-  "name": "Coated Almonds",
-  "ratePerKg": 1580.0,
+  "name": "Coated Badam",
+  "ratePerKg": 1580,
   "image": "",
-  "group": "Almonds",
-  "active": false
+  "group": "Flavoured",
+  "active": true,
+  "sort": 13
  },
  {
   "id": "date-almonds",
   "name": "Date Almonds",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Almonds",
-  "active": true
+  "group": "Bites & Chocolates",
+  "active": true,
+  "sort": 28
  },
  {
   "id": "flavoured-badam",
   "name": "Flavoured Badam",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Almonds",
-  "active": true
+  "group": "Flavoured",
+  "active": true,
+  "sort": 10
  },
  {
   "id": "mamra-badam",
@@ -61,7 +65,7 @@
   "ratePerKg": 3450.0,
   "image": "",
   "group": "Almonds",
-  "active": true
+  "active": false
  },
  {
   "id": "masala-badam",
@@ -76,8 +80,9 @@
   "name": "Namkeen Badam",
   "ratePerKg": 1280.0,
   "image": "",
-  "group": "Almonds",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 7
  },
  {
   "id": "paan-badam",
@@ -109,7 +114,7 @@
   "ratePerKg": 1280.0,
   "image": "",
   "group": "Almonds",
-  "active": true
+  "active": false
  },
  {
   "id": "rose-badam",
@@ -124,63 +129,71 @@
   "name": "Blueberry",
   "ratePerKg": 1880.0,
   "image": "",
-  "group": "Berries",
-  "active": true
+  "group": "Berries & Seeds",
+  "active": true,
+  "sort": 15
  },
  {
   "id": "cranberry",
   "name": "Cranberry",
   "ratePerKg": 780.0,
   "image": "",
-  "group": "Berries",
-  "active": true
+  "group": "Berries & Seeds",
+  "active": true,
+  "sort": 16
  },
  {
   "id": "masala-cranberry",
   "name": "Masala Cranberry",
   "ratePerKg": 940.0,
   "image": "",
-  "group": "Berries",
-  "active": true
+  "group": "Berries & Seeds",
+  "active": true,
+  "sort": 17
  },
  {
   "id": "breakfast-mix",
   "name": "Breakfast Mix",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Bites & mixes",
-  "active": true
+  "group": "Berries & Seeds",
+  "active": true,
+  "sort": 18
  },
  {
   "id": "crunchies",
   "name": "Crunchies",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Bites & mixes",
-  "active": true
+  "group": "Bites & Chocolates",
+  "active": true,
+  "sort": 21
  },
  {
   "id": "date-bites",
   "name": "Date Bites",
-  "group": "Bites & mixes",
+  "group": "Bites & Chocolates",
   "ratePerKg": 1480.0,
-  "active": true
+  "active": true,
+  "sort": 23
  },
  {
   "id": "delightful-bites",
   "name": "Delightful Bites",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Bites & mixes",
-  "active": true
+  "group": "Bites & Chocolates",
+  "active": true,
+  "sort": 25
  },
  {
   "id": "fruity-bites",
   "name": "Fruity Bites",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Bites & mixes",
-  "active": true
+  "group": "Bites & Chocolates",
+  "active": true,
+  "sort": 20
  },
  {
   "id": "healthy-bites",
@@ -188,36 +201,40 @@
   "ratePerKg": 1480.0,
   "image": "",
   "group": "Bites & mixes",
-  "active": true
+  "active": false
  },
  {
   "id": "kunafa-bar",
   "name": "Kunafa Bar",
-  "group": "Bites & mixes",
+  "group": "Bites & Chocolates",
   "ratePerKg": 2050.0,
-  "active": true
+  "active": true,
+  "sort": 26
  },
  {
   "id": "kunafa-bite",
   "name": "Kunafa Bite",
-  "group": "Bites & mixes",
+  "group": "Bites & Chocolates",
   "ratePerKg": 2050.0,
-  "active": true
+  "active": true,
+  "sort": 27
  },
  {
   "id": "sugarfree-bites",
   "name": "Sugarfree Bites",
   "ratePerKg": 1880.0,
   "image": "",
-  "group": "Bites & mixes",
-  "active": true
+  "group": "Bites & Chocolates",
+  "active": true,
+  "sort": 24
  },
  {
   "id": "trail-mix",
   "name": "Trail Mix",
-  "group": "Bites & mixes",
+  "group": "Berries & Seeds",
   "ratePerKg": 1480.0,
-  "active": true
+  "active": true,
+  "sort": 19
  },
  {
   "id": "achari-kaju",
@@ -256,8 +273,9 @@
   "name": "Flavoured Kaju",
   "ratePerKg": 1580.0,
   "image": "",
-  "group": "Cashews",
-  "active": true
+  "group": "Flavoured",
+  "active": true,
+  "sort": 11
  },
  {
   "id": "italian-herbs-kaju",
@@ -280,8 +298,9 @@
   "name": "Kaju",
   "ratePerKg": 1180.0,
   "image": "",
-  "group": "Cashews",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 0
  },
  {
   "id": "lemon-basil-kaju",
@@ -304,8 +323,9 @@
   "name": "Namkeen Kaju",
   "ratePerKg": 1380.0,
   "image": "",
-  "group": "Cashews",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 8
  },
  {
   "id": "pineapple-pepper-kaju",
@@ -329,23 +349,25 @@
   "ratePerKg": 1380.0,
   "image": "",
   "group": "Cashews",
-  "active": true
+  "active": false
  },
  {
   "id": "flavoured-pista",
   "name": "Flavoured Pista",
   "ratePerKg": 1680.0,
   "image": "",
-  "group": "Pistachios",
-  "active": true
+  "group": "Flavoured",
+  "active": true,
+  "sort": 12
  },
  {
   "id": "namkeen-pista",
   "name": "Namkeen Pista",
   "ratePerKg": 1880.0,
   "image": "",
-  "group": "Pistachios",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 3
  },
  {
   "id": "premium-namkeen-pista",
@@ -353,7 +375,7 @@
   "ratePerKg": 1480.0,
   "image": "",
   "group": "Pistachios",
-  "active": true
+  "active": false
  },
  {
   "id": "bubble-gum-kishmish",
@@ -365,27 +387,30 @@
  },
  {
   "id": "coated-raisins",
-  "name": "Coated Raisins",
-  "ratePerKg": 1280.0,
+  "name": "Coated Kishmish",
+  "ratePerKg": 1280,
   "image": "",
-  "group": "Raisins",
-  "active": false
+  "group": "Flavoured",
+  "active": true,
+  "sort": 14
  },
  {
   "id": "flavoured-kishmish",
   "name": "Flavoured Kishmish",
   "ratePerKg": 1280.0,
   "image": "",
-  "group": "Raisins",
-  "active": true
+  "group": "Flavoured",
+  "active": true,
+  "sort": 9
  },
  {
   "id": "kishmish-green",
   "name": "Kishmish Green",
   "ratePerKg": 880.0,
   "image": "",
-  "group": "Raisins",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 1
  },
  {
   "id": "kishmish-sandukani",
@@ -393,7 +418,7 @@
   "ratePerKg": 1880.0,
   "image": "",
   "group": "Raisins",
-  "active": true
+  "active": false
  },
  {
   "id": "paan-kishmish",
@@ -417,7 +442,7 @@
   "ratePerKg": 880.0,
   "image": "",
   "group": "Raisins",
-  "active": true
+  "active": false
  },
  {
   "id": "watermelon-kishmish",
@@ -432,24 +457,27 @@
   "name": "Akrot Magaz",
   "ratePerKg": 1880.0,
   "image": "",
-  "group": "Walnuts, figs & dates",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 5
  },
  {
   "id": "anjeer",
   "name": "Anjeer",
   "ratePerKg": 1840.0,
   "image": "",
-  "group": "Walnuts, figs & dates",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 6
  },
  {
   "id": "dates-pastry",
   "name": "Date Pastry",
   "ratePerKg": 1480.0,
   "image": "",
-  "group": "Walnuts, figs & dates",
-  "active": true
+  "group": "Bites & Chocolates",
+  "active": true,
+  "sort": 22
  },
  {
   "id": "khajoor-dry",
@@ -457,14 +485,15 @@
   "ratePerKg": 480.0,
   "image": "",
   "group": "Walnuts, figs & dates",
-  "active": true
+  "active": false
  },
  {
   "id": "khurbani",
   "name": "Khurbani",
   "ratePerKg": 880.0,
   "image": "",
-  "group": "Walnuts, figs & dates",
-  "active": true
+  "group": "Regular",
+  "active": true,
+  "sort": 4
  }
 ]

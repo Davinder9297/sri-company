@@ -1,13 +1,12 @@
 import { esc, money, sizeLabel, icon, tel, wa } from '../util.js';
 import { state } from '../state.js';
-import { boxPhoto, fillingPhoto, productCard, sizeGroups } from '../ui.js';
+import { boxPhoto, fillingPhoto, productCard, sizeGroups, categoryTile } from '../ui.js';
 
 export default async function home() {
   const { products, fillings, payment } = state;
   const groups = sizeGroups(products);
   const sizes = [...groups.keys()];
   const minPrice = Math.min(...products.map(p => p.price).filter(p => p > 0));
-  const minRate = Math.min(...fillings.map(f => f.ratePerKg).filter(r => r > 0));
 
   const pick = (size, i = 0) => (groups.get(size) || products)[i] || products[0];
   const withPhoto = (size, i = 0) => { const g = groups.get(size) || products; return g.find(p => p.image) || g[i] || products[0]; };
@@ -45,13 +44,8 @@ export default async function home() {
   </div></section>
 
   <section class="section" id="sizes"><div class="wrap">
-    <div class="section-head"><div><div class="eyebrow">Shop by size</div><h2>Find the right box</h2><p>Each size has its own capacity and compartment layout. Boxes start from ${money(minPrice)}; fillings are added on top.</p></div><a class="btn btn-outline" href="/shop" data-link>View all ${products.length} boxes</a></div>
-    <div class="grid grid-3">${sizes.map(s => {
-      const g = groups.get(s), rep = g.find(p => p.image) || g[0];
-      const lo = Math.min(...g.map(p => p.price));
-      return `<a class="size-tile" href="/shop?size=${esc(s)}" data-link><div class="pic">${boxPhoto(rep)}</div>
-        <div class="body"><div><h3>${esc(sizeLabel(s))}</h3><p>Holds up to ${rep.capacityGrams} g · ${rep.compartments} compartments · ${g.length} designs</p></div><div class="from">Box from<b>${money(lo)}</b></div></div></a>`;
-    }).join('')}</div>
+    <div class="section-head"><div><div class="eyebrow">Shop by size</div><h2>Find the right box</h2><p>Each size has its own capacity and compartment layout. Boxes start from ${money(minPrice)}; fillings are added on top.</p></div></div>
+    <div class="grid grid-3">${sizes.map(s => categoryTile(s, groups.get(s))).join('')}</div>
   </div></section>
 
   <section class="section tint"><div class="wrap">
@@ -70,8 +64,8 @@ export default async function home() {
   </div></section>
 
   <section class="section tint"><div class="wrap">
-    <div class="section-head"><div><div class="eyebrow">Fillings</div><h2>${fillings.length} fillings, priced per kg</h2><p>From ${money(minRate)} per kg. You only pay for the grams you choose for each compartment.</p></div><a class="btn btn-outline" href="/fillings" data-link>See all fillings &amp; rates</a></div>
-    <div class="fill-grid">${featFill.map(f => `<div class="fcard"><div class="thumb">${fillingPhoto(f)}</div><div class="t"><b>${esc(f.name)}</b><small>${esc(f.group)}</small><div class="rate">${money(f.ratePerKg)} / kg</div></div></div>`).join('')}</div>
+    <div class="section-head"><div><div class="eyebrow">Fillings</div><h2>${fillings.length} fillings to choose from</h2><p>Dry fruits, flavoured nuts, berries and bites. You choose the weight for each compartment.</p></div><a class="btn btn-outline" href="/our-range" data-link>See our range</a></div>
+    <div class="fill-grid">${featFill.map(f => `<div class="fcard"><div class="thumb">${fillingPhoto(f)}</div><div class="t"><b>${esc(f.name)}</b><small>${esc(f.group)}</small></div></div>`).join('')}</div>
   </div></section>
 
   <section class="section"><div class="wrap">

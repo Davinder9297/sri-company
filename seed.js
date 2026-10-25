@@ -11,12 +11,13 @@ export function seedCatalogue({ refreshPrices = false } = {}) {
   /* Re-running the seed refreshes catalogue facts but never overwrites what you edited in Admin
      (retail price, stock, photos, active flag). */
   const addP = db.prepare(`
-    INSERT INTO products(id,code,name,category,purchase_price,selling_price,weight,capacity_grams,design,size,compartments,stock,track_stock,image,source_image,active)
-    VALUES(@id,@code,@name,@category,@purchasePrice,@sellingPrice,@weight,@capacityGrams,@design,@size,@compartments,@stock,@trackStock,@image,@image,1)
+    INSERT INTO products(id,code,name,category,purchase_price,selling_price,weight,capacity_grams,design,size,compartments,stock,track_stock,packing_price,image,source_image,active)
+    VALUES(@id,@code,@name,@category,@purchasePrice,@sellingPrice,@weight,@capacityGrams,@design,@size,@compartments,@stock,@trackStock,@packingPrice,@image,@image,1)
     ON CONFLICT(id) DO UPDATE SET
       code=excluded.code, name=excluded.name, category=excluded.category, purchase_price=excluded.purchase_price,
       weight=excluded.weight, capacity_grams=excluded.capacity_grams, design=excluded.design, size=excluded.size,
       compartments=excluded.compartments,
+      packing_price=CASE WHEN @refresh=1 OR products.packing_price=0 THEN excluded.packing_price ELSE products.packing_price END,
       selling_price=CASE WHEN @refresh=0 AND products.selling_price>0 THEN products.selling_price ELSE excluded.selling_price END,
       source_image=CASE WHEN products.source_image='' THEN excluded.source_image ELSE products.source_image END,
       image=CASE WHEN products.image='' THEN excluded.image ELSE products.image END`);
@@ -27,7 +28,7 @@ export function seedCatalogue({ refreshPrices = false } = {}) {
       active=CASE WHEN @refresh=1 THEN excluded.active ELSE fillings.active END`);
 
   db.transaction(() => {
-    for (const p of products) addP.run({ stock: 0, trackStock: 0, ...p, trackStock: p.trackStock ? 1 : 0, image: p.image || '', refresh: refreshPrices ? 1 : 0 });
+    for (const p of products) addP.run({ stock: 0, trackStock: 0, packingPrice: 0, ...p, trackStock: p.trackStock ? 1 : 0, image: p.image || '', refresh: refreshPrices ? 1 : 0 });
     for (const f of fillings) addF.run({ active: 1, ...f, active: f.active === false ? 0 : 1, refresh: refreshPrices ? 1 : 0 });
   })();
   const linked = linkLocalPhotos() + applyBasePhotos();

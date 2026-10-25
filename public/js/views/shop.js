@@ -1,78 +1,51 @@
-import { esc, sizeLabel, icon, $, $$ } from '../util.js';
+import { esc, sizeLabel, icon, $ } from '../util.js';
 import { state } from '../state.js';
-import { productCard, sizeGroups } from '../ui.js';
+import { productCard, sizeGroups, categoryTile } from '../ui.js';
 
-export default async function shop({ query }) {
+/** /shop            → list of box categories (sizes), no boxes.
+ *  /shop/:size      → only the boxes of that category. */
+export default async function shop({ params, query }) {
   const groups = sizeGroups(state.products);
-  const sizes = [...groups.keys()];
-  const cats = [...new Set(state.products.map(p => p.category).filter(Boolean))];
-  const comps = [...new Set(state.products.map(p => p.compartments))].sort((a, b) => a - b);
-  const f = {
-    cats: new Set((query.get('type') || '').split(',').filter(Boolean)),
-    sizes: new Set((query.get('size') || '').split(',').filter(s => groups.has(s))),
-    comps: new Set((query.get('comp') || '').split(',').map(Number).filter(n => comps.includes(n))),
-    q: query.get('q') || '', sort: query.get('sort') || 'size'
-  };
+  const wanted = params[0] || (query.get('size') || '').split(',')[0] || '';
 
+  if (!wanted) {
+    const html = `
+    <section class="page-head"><div class="wrap"><div class="crumbs"><a href="/" data-link>Home</a><span>/</span>Gift boxes</div><h1 style="font-size:clamp(2.2rem,4vw,3.2rem)">Gift boxes</h1><p>Choose a box category to see the designs in it.</p></div></section>
+    <section class="section"><div class="wrap"><div class="grid grid-3">${[...groups.keys()].map(s => categoryTile(s, groups.get(s))).join('')}</div></div></section>`;
+    return { html, title: 'Gift boxes' };
+  }
+
+  const list0 = groups.get(wanted);
+  if (!list0) {
+    return { title: 'Category not found', html: `<div class="wrap"><div class="empty" style="margin:72px 0"><h2 style="margin-bottom:.6rem">We could not find that category</h2><a class="btn btn-primary" href="/shop" data-link>See all categories</a></div></div>` };
+  }
+  const label = sizeLabel(wanted);
   const html = `
-  <section class="page-head"><div class="wrap"><div class="crumbs"><a href="/" data-link>Home</a><span>/</span>Gift boxes</div><h1 style="font-size:clamp(2.2rem,4vw,3.2rem)">Gift boxes</h1><p>Choose a box, then fill each compartment your way. Prices shown are for the empty box — fillings are added when you customise.</p></div></section>
-  <div class="wrap"><div class="shop">
-    <aside class="filters" id="filters" aria-label="Filters">
-      ${cats.length > 1 ? `<div><h4>Box type</h4>${cats.map(c => `<label class="opt"><input type="checkbox" data-f="type" value="${esc(c)}"> ${esc(c)}<span class="n">${state.products.filter(p => p.category === c).length}</span></label>`).join('')}</div>` : ''}
-      <div><h4>Box size</h4>${sizes.map(s => `<label class="opt"><input type="checkbox" data-f="size" value="${esc(s)}"> ${esc(sizeLabel(s))}<span class="n">${groups.get(s).length}</span></label>`).join('')}</div>
-      <div><h4>Compartments</h4>${comps.map(c => `<label class="opt"><input type="checkbox" data-f="comp" value="${c}"> ${c} compartment${c > 1 ? 's' : ''}<span class="n">${state.products.filter(p => p.compartments === c).length}</span></label>`).join('')}</div>
-      <button class="btn btn-outline btn-sm" id="clearF" type="button">Clear filters</button>
-    </aside>
-    <div>
-      <div class="toolbar">
-        <button class="btn btn-outline btn-sm filter-toggle" id="ftoggle" type="button">${icon('filter')} Filters</button>
-        <div class="search">${icon('search')}<input id="q" type="search" placeholder="Search by design or code, e.g. SC05" aria-label="Search boxes"></div>
-        <span class="result-count" id="count" aria-live="polite"></span>
-        <select class="select" id="sort" aria-label="Sort"><option value="size">Sort: Size (small to large)</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="design">Design code</option></select>
-      </div>
-      <div class="grid grid-shop" id="grid"></div>
+  <section class="page-head"><div class="wrap"><div class="crumbs"><a href="/" data-link>Home</a><span>/</span><a href="/shop" data-link>Gift boxes</a><span>/</span>${esc(label)}</div>
+    <h1 style="font-size:clamp(2.2rem,4vw,3.2rem)">${esc(label)} boxes</h1><p>${list0.length} design${list0.length > 1 ? 's' : ''} · holds up to ${list0[0].capacityGrams} g. Open a box to choose what goes into each compartment.</p></div></section>
+  <div class="wrap" style="padding-top:22px">
+    <div class="chips" style="margin-bottom:18px">${[...groups.keys()].map(s => `<a class="chip${s === wanted ? ' on' : ''}" href="/shop/${encodeURIComponent(s)}" data-link>${esc(sizeLabel(s))}</a>`).join('')}</div>
+    <div class="toolbar">
+      <div class="search">${icon('search')}<input id="q" type="search" placeholder="Search by design or code" aria-label="Search boxes"></div>
+      <span class="result-count" id="count" aria-live="polite"></span>
+      <select class="select" id="sort" aria-label="Sort"><option value="design">Sort: Design code</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select>
     </div>
-  </div></div>`;
+    <div class="grid grid-4" id="grid" style="margin-bottom:60px"></div>
+  </div>`;
 
   function mount(app) {
-    const root = $('.shop', app);
-    const sync = () => {
-      $$('[data-f="type"]', root).forEach(i => { i.checked = f.cats.has(i.value); });
-      $$('[data-f="size"]', root).forEach(i => { i.checked = f.sizes.has(i.value); });
-      $$('[data-f="comp"]', root).forEach(i => { i.checked = f.comps.has(Number(i.value)); });
-      $('#q', root).value = f.q; $('#sort', root).value = f.sort;
+    let q = '', sort = 'design';
+    const draw = () => {
+      let list = list0.filter(p => !q || `${p.code} ${p.design}`.toLowerCase().includes(q.toLowerCase()));
+      if (sort === 'price-asc') list = list.sort((a, b) => a.price - b.price);
+      else if (sort === 'price-desc') list = list.sort((a, b) => b.price - a.price);
+      else list = list.sort((a, b) => a.design.localeCompare(b.design, undefined, { numeric: true }));
+      $('#count', app).textContent = `${list.length} of ${list0.length} boxes`;
+      $('#grid', app).innerHTML = list.length ? list.map(productCard).join('') : `<div class="empty" style="grid-column:1/-1"><h3>No box matches</h3><p>Try a different code.</p></div>`;
     };
-    sync();
-
-    function draw() {
-      let list = state.products.filter(p =>
-        (!f.cats.size || f.cats.has(p.category)) && (!f.sizes.size || f.sizes.has(p.size)) && (!f.comps.size || f.comps.has(p.compartments)) &&
-        (!f.q || `${p.code} ${p.design} ${p.size} ${sizeLabel(p.size)}`.toLowerCase().includes(f.q.toLowerCase())));
-      if (f.sort === 'price-asc') list = list.sort((a, b) => a.price - b.price || 0);
-      if (f.sort === 'price-desc') list = list.sort((a, b) => b.price - a.price);
-      if (f.sort === 'design') list = list.sort((a, b) => a.design.localeCompare(b.design, undefined, { numeric: true }));
-      $('#count', root).textContent = `${list.length} of ${state.products.length} boxes`;
-      $('#grid', root).innerHTML = list.length ? list.map(productCard).join('') : `<div class="empty" style="grid-column:1/-1"><h3>No boxes match your filters</h3><p>Try removing a filter or searching for a different code.</p></div>`;
-      const qs = new URLSearchParams();
-      if (f.cats.size) qs.set('type', [...f.cats].join(','));
-      if (f.sizes.size) qs.set('size', [...f.sizes].join(','));
-      if (f.comps.size) qs.set('comp', [...f.comps].join(','));
-      if (f.q) qs.set('q', f.q);
-      if (f.sort !== 'size') qs.set('sort', f.sort);
-      history.replaceState({}, '', location.pathname + (qs.toString() ? '?' + qs : ''));
-    }
-    root.addEventListener('change', e => {
-      const t = e.target;
-      if (t.dataset.f === 'type') t.checked ? f.cats.add(t.value) : f.cats.delete(t.value);
-      if (t.dataset.f === 'size') t.checked ? f.sizes.add(t.value) : f.sizes.delete(t.value);
-      if (t.dataset.f === 'comp') t.checked ? f.comps.add(Number(t.value)) : f.comps.delete(Number(t.value));
-      if (t.id === 'sort') f.sort = t.value;
-      draw();
-    });
-    $('#q', root).addEventListener('input', e => { f.q = e.target.value.trim(); draw(); });
-    $('#clearF', root).addEventListener('click', () => { f.cats.clear(); f.sizes.clear(); f.comps.clear(); f.q = ''; f.sort = 'size'; sync(); draw(); });
-    $('#ftoggle', root).addEventListener('click', () => $('#filters', root).classList.toggle('open'));
+    $('#q', app).addEventListener('input', e => { q = e.target.value.trim(); draw(); });
+    $('#sort', app).addEventListener('change', e => { sort = e.target.value; draw(); });
     draw();
   }
-  return { html, title: 'Gift boxes', mount };
+  return { html, title: `${label} boxes`, mount };
 }

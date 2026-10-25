@@ -13,7 +13,7 @@ import { linkLocalPhotos, cacheRemoteImages, applyBasePhotos } from './lib/image
 import { seedCatalogue } from './seed.js';
 import { normalizeProductPhotos } from './lib/normalize.js';
 
-const CATALOGUE_VERSION = '2026-diwali-v4';
+const CATALOGUE_VERSION = '2026-diwali-v5';
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC = path.join(ROOT, 'public');
 const app = express();
@@ -92,7 +92,7 @@ const auth = (req, res, next) => (req.session.adminId ? next() : res.status(401)
 
 const publicProduct = p => ({
   id: p.id, code: p.code, name: p.name, category: p.category, design: p.design, size: p.size, weight: p.weight,
-  capacityGrams: p.capacity_grams, compartments: p.compartments, price: p.selling_price, image: p.image || '',
+  capacityGrams: p.capacity_grams, compartments: p.compartments, price: p.selling_price, packingPrice: p.packing_price || 0, image: p.image || '',
   inStock: !p.track_stock || p.stock > 0, stockLeft: p.track_stock ? p.stock : null
 });
 const adminProduct = p => ({
@@ -111,7 +111,7 @@ function paymentInfo() {
 }
 function storeInfo() {
   const s = allSettings();
-  return { name: s.storeName, tagline: s.tagline, phone1: s.phone1, phone2: s.phone2, email: s.storeEmail, codEnabled: s.codEnabled === 'true' };
+  return { name: s.storeName, tagline: s.tagline, phone1: s.phone1, phone2: s.phone2, email: s.storeEmail, codEnabled: s.codEnabled === 'true', gstPercent: Number(s.gstPercent ?? 5) };
 }
 
 /* ---------- public API ---------- */
@@ -120,14 +120,14 @@ app.get('/api/store', (req, res) => {
     store: storeInfo(),
     payment: paymentInfo(),
     products: db.prepare('SELECT * FROM products WHERE active=1 AND length(image) > 0 ORDER BY (size IS NULL), design, id').all().map(publicProduct),
-    fillings: db.prepare('SELECT * FROM fillings WHERE active=1 ORDER BY grp, name').all().map(publicFilling)
+    fillings: db.prepare('SELECT * FROM fillings WHERE active=1 ORDER BY CASE grp WHEN \'Regular\' THEN 1 WHEN \'Flavoured\' THEN 2 WHEN \'Berries & Seeds\' THEN 3 WHEN \'Bites & Chocolates\' THEN 4 ELSE 5 END, name').all().map(publicFilling)
   });
 });
 
 function orderView(o) {
   return {
     id: o.id, createdAt: o.created_at, status: o.status, paymentStatus: o.payment_status, paymentMethod: o.payment_method,
-    paymentRef: o.payment_ref, hasProof: !!o.payment_proof, total: o.total, subtotal: o.subtotal, shipping: o.shipping,
+    paymentRef: o.payment_ref, hasProof: !!o.payment_proof, total: o.total, subtotal: o.subtotal, gst: o.gst || 0, shipping: o.shipping,
     customer: { name: o.customer_name, phone: o.phone, email: o.email, address: o.address, city: o.city, state: o.state, pin: o.pin },
     note: o.note, items: JSON.parse(o.items_json)
   };
@@ -157,10 +157,10 @@ app.post('/api/orders', limit('order', 20, 3600e3), (req, res) => {
     const token = crypto.randomBytes(16).toString('hex');
 
     db.transaction(() => {
-      db.prepare(`INSERT INTO orders(id,access_token,customer_name,phone,email,address,city,state,pin,note,items_json,subtotal,shipping,total,payment_method,payment_status,status)
-                  VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+      db.prepare(`INSERT INTO orders(id,access_token,customer_name,phone,email,address,city,state,pin,note,items_json,subtotal,gst,shipping,total,payment_method,payment_status,status)
+                  VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
         .run(id, token, customer.name, customer.phone, customer.email, customer.address, customer.city, customer.state, customer.pin, note,
-          JSON.stringify(priced.lines), priced.subtotal, priced.shipping, priced.total, method, 'Pending', method === 'COD' ? 'New' : 'Awaiting payment');
+          JSON.stringify(priced.lines), priced.subtotal, priced.gst, priced.shipping, priced.total, method, 'Pending', method === 'COD' ? 'New' : 'Awaiting payment');
       for (const l of priced.lines) {
         db.prepare('INSERT INTO order_items(order_id,product_id,product_name,quantity,unit_price,configuration_json) VALUES(?,?,?,?,?,?)')
           .run(id, l.productId, l.name, l.quantity, l.unitPrice, JSON.stringify(l.fillings));

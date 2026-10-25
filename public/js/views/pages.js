@@ -15,7 +15,7 @@ export async function payment() {
 }
 
 const FAQ = [
-  ['How is the price calculated?', 'Your price is the box price plus the cost of each filling. Every filling has a rate per kg; you pay only for the grams you choose for each compartment. The total updates live as you build, and our server re-checks it when you place the order.'],
+  ['How is the price calculated?', 'Your price is the box price, plus the fillings you choose (charged by weight for each compartment), plus a packing charge per box. 5% GST is added on the total. The bill updates live as you build, and our server re-checks it when you place the order.'],
   ['Can I choose different fillings for each compartment?', 'Yes. Every compartment can hold a different filling, and you set the weight for each one in 25 g steps, up to the capacity of the box.'],
   ['How do I pay?', 'Pay by Google Pay / UPI (scan our QR code or use our UPI ID) or by bank transfer (NEFT, IMPS or RTGS). The full details appear on your order page right after you place the order, and on the Payment details page.'],
   ['When is my order confirmed?', 'Your order is confirmed once we have received and verified your payment. Enter your UTR / transaction ID on your order page, or send us a screenshot on WhatsApp, so we can match it quickly.'],

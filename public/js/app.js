@@ -11,12 +11,12 @@ import order from './views/order.js';
 import { payment, faq, contact, notFound } from './views/pages.js';
 
 const routes = [
-  [/^\/$/, home], [/^\/shop\/?$/, shop], [/^\/box\/([^/]+)\/?$/, builder], [/^\/fillings\/?$/, fillings],
+  [/^\/$/, home], [/^\/shop\/?$/, shop], [/^\/shop\/([^/]+)\/?$/, shop], [/^\/box\/([^/]+)\/?$/, builder], [/^\/(?:fillings|our-range)\/?$/, fillings],
   [/^\/checkout\/?$/, checkout], [/^\/order\/([^/]+)\/?$/, order], [/^\/payment\/?$/, payment],
   [/^\/faq\/?$/, faq], [/^\/contact\/?$/, contact]
 ];
 const TITLE = 'Sri Company';
-const NAV = [['/shop', 'Gift boxes'], ['/fillings', 'Fillings & rates'], ['/#how', 'How it works'], ['/payment', 'Payment details'], ['/faq', 'FAQs'], ['/contact', 'Contact']];
+const NAV = [['/shop', 'Gift boxes'], ['/our-range', 'Our Range'], ['/#how', 'How it works'], ['/payment', 'Payment details'], ['/faq', 'FAQs'], ['/contact', 'Contact']];
 
 function shell() {
   const s = state.store, p = state.payment;
@@ -38,7 +38,7 @@ function shell() {
   <footer class="footer"><div class="wrap">
     <div class="top">
       <div><img class="logo" src="/assets/logo-sm.png" alt="Sri Company"><p>${esc(s.tagline)}. Choose the box, fill every compartment, and we pack it for you.</p></div>
-      <div><h4>Shop</h4><ul><li><a href="/shop" data-link>All gift boxes</a></li><li><a href="/shop?size=8x8" data-link>8 × 8 in</a></li><li><a href="/shop?size=10x10" data-link>10 × 10 in</a></li><li><a href="/shop?size=12x12" data-link>12 × 12 in</a></li><li><a href="/fillings" data-link>Fillings &amp; rates</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="/shop" data-link>All gift boxes</a></li><li><a href="/shop/8x8" data-link>8 × 8 in</a></li><li><a href="/shop/10x10" data-link>10 × 10 in</a></li><li><a href="/shop/12x12" data-link>12 × 12 in</a></li><li><a href="/our-range" data-link>Our Range</a></li></ul></div>
       <div><h4>Help</h4><ul><li><a href="/#how" data-link>How it works</a></li><li><a href="/payment" data-link>Payment details</a></li><li><a href="/faq" data-link>FAQs</a></li><li><a href="/contact" data-link>Contact us</a></li></ul></div>
       <div><h4>Contact &amp; payments</h4><ul>
         <li><a href="${tel(s.phone1)}">${esc(s.phone1)}</a></li><li><a href="${tel(s.phone2)}">${esc(s.phone2)}</a></li>
@@ -59,7 +59,7 @@ async function render(path = location.pathname + location.search, { scroll = tru
   const out = await view(ctx);
   $('#app').innerHTML = out.html;
   document.title = out.title ? `${out.title} — ${TITLE}` : `${TITLE} — Personalised Dry-Fruit Gift Boxes`;
-  $$('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === pathname || (a.dataset.nav === '/shop' && pathname.startsWith('/box/'))));
+  $$('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === pathname || (a.dataset.nav === '/shop' && pathname.startsWith('/box/')) || (a.dataset.nav === '/our-range' && pathname === '/fillings')));
   $('#nav')?.classList.remove('open');
   out.mount?.($('#app'), ctx);
   if (scroll) {

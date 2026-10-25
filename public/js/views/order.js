@@ -11,6 +11,7 @@ export default async function order(ctx) {
   const { order: o, payment: pay, store } = data;
   const cancelled = o.status === 'Cancelled';
   const verified = o.paymentStatus === 'Verified';
+  const packSum = Math.round(o.items.reduce((s, i) => s + (i.packingPrice || 0) * i.quantity, 0) * 100) / 100;
   const boxesSum = Math.round(o.items.reduce((s, i) => s + (i.boxPrice || 0) * i.quantity, 0) * 100) / 100;
   const showPay = !cancelled && !verified && o.paymentMethod !== 'COD';
   const first = o.customer.name.split(' ')[0];
@@ -55,7 +56,7 @@ export default async function order(ctx) {
     <div class="panel" style="margin-top:24px"><h3>Order details</h3>
       <table class="items-table"><thead><tr><th>Box &amp; fillings</th><th>Qty</th><th>Amount</th></tr></thead><tbody>
         ${o.items.map(i => `<tr><td><b>${esc(i.name)}</b>${bill(billFromOrder(i))}</td><td>${i.quantity}</td><td>${money(i.lineTotal)}</td></tr>`).join('')}
-        <tr><td colspan="2" style="text-align:right">Boxes</td><td>${money(boxesSum)}</td></tr><tr><td colspan="2" style="text-align:right">Fillings</td><td>${money(Math.round((o.subtotal - boxesSum) * 100) / 100)}</td></tr><tr><td colspan="2" style="text-align:right"><b>Total</b></td><td><b style="font-size:1.1rem">${money(o.total)}</b></td></tr></tbody></table>
+        <tr><td colspan="2" style="text-align:right">Boxes</td><td>${money(boxesSum)}</td></tr><tr><td colspan="2" style="text-align:right">Fillings</td><td>${money(Math.round((o.subtotal - boxesSum - packSum) * 100) / 100)}</td></tr><tr><td colspan="2" style="text-align:right">Packing</td><td>${money(packSum)}</td></tr><tr><td colspan="2" style="text-align:right">Subtotal</td><td>${money(o.subtotal)}</td></tr><tr><td colspan="2" style="text-align:right">GST${o.subtotal ? ' (' + Math.round(o.gst / o.subtotal * 1000) / 10 + '%)' : ''}</td><td>${money(o.gst)}</td></tr><tr><td colspan="2" style="text-align:right"><b>Total</b></td><td><b style="font-size:1.1rem">${money(o.total)}</b></td></tr></tbody></table>
       <div class="two" style="margin-top:22px"><div><h4 style="font-family:var(--font);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Deliver to</h4><p style="margin-top:.4rem">${esc(o.customer.name)}<br>${esc(o.customer.address)}<br>${esc(o.customer.city)}${o.customer.state ? ', ' + esc(o.customer.state) : ''} ${esc(o.customer.pin)}<br>${esc(o.customer.phone)}</p></div>
       ${o.note ? `<div><h4 style="font-family:var(--font);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Your note</h4><p style="margin-top:.4rem">${esc(o.note)}</p></div>` : ''}</div>
     </div>

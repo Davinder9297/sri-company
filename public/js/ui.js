@@ -35,26 +35,35 @@ export const sizeGroups = products => {
   }
   return m;
 };
+/** One box-category (size) tile; links to that category's own page. */
+export const categoryTile = (s, g) => {
+  const rep = g.find(p => p.image) || g[0];
+  const lo = Math.min(...g.map(p => p.price));
+  return `<a class="size-tile" href="/shop/${encodeURIComponent(s)}" data-link><div class="pic">${boxPhoto(rep)}</div>
+    <div class="body"><div><h3>${esc(sizeLabel(s))}</h3><p>Holds up to ${rep.capacityGrams} g · ${rep.compartments} compartments · ${g.length} designs</p></div><div class="from">Box from<b>${money(lo)}</b></div></div></a>`;
+};
 /** Itemised bill for one configured box: box price, every filling (weight × rate) and the per-box subtotal.
  *  b = { boxLabel, boxPrice, fillings:[{name, grams, ratePerKg, amount}], qty, total } */
 export function bill(b, { compact = false } = {}) {
   const fillSum = Math.round(b.fillings.reduce((s, f) => s + f.amount, 0) * 100) / 100;
-  const unit = Math.round((b.boxPrice + fillSum) * 100) / 100;
+  const pack = b.packingPrice || 0;
+  const unit = Math.round((b.boxPrice + fillSum + pack) * 100) / 100;
   return `<div class="bill${compact ? ' compact' : ''}">
     <div class="b-row b-box"><span>Gift box<small>${esc(b.boxLabel)}</small></span><b>${money(b.boxPrice)}</b></div>
     ${b.fillings.map(f => `<div class="b-row"><span>${esc(f.name)}<small>${grams(f.grams)} × ${money(f.ratePerKg)}/kg</small></span><span>${money(f.amount)}</span></div>`).join('')}
-    <div class="b-row b-sub"><span>Price per box<small>box ${money(b.boxPrice)} + fillings ${money(fillSum)}</small></span><b>${money(unit)}</b></div>
+    <div class="b-row"><span>Packing<small>per box</small></span><span>${money(pack)}</span></div>
+    <div class="b-row b-sub"><span>Price per box<small>box + fillings + packing</small></span><b>${money(unit)}</b></div>
     ${b.qty > 1 ? `<div class="b-row b-qty"><span>${money(unit)} × ${b.qty} boxes</span><b>${money(b.total)}</b></div>` : ''}
   </div>`;
 }
 /** Convert a cart item (client-side calc) into the shape `bill` expects. */
 export const billFromCalc = (c, qty) => ({
-  boxLabel: `${c.product.design} · ${sizeLabel(c.product.size)}`, boxPrice: c.boxPrice,
+  boxLabel: `${c.product.design} · ${sizeLabel(c.product.size)}`, boxPrice: c.boxPrice, packingPrice: c.packing,
   fillings: c.lines.map(l => ({ name: l.filling.name, grams: l.grams, ratePerKg: l.filling.ratePerKg, amount: l.amount })), qty, total: c.total
 });
 /** Same for an order line returned by the server. */
 export const billFromOrder = i => ({
-  boxLabel: i.name, boxPrice: i.boxPrice ?? 0,
+  boxLabel: i.name, boxPrice: i.boxPrice ?? 0, packingPrice: i.packingPrice ?? 0,
   fillings: i.fillings.map(f => ({ name: f.name, grams: f.grams, ratePerKg: f.ratePerKg ?? 0, amount: f.amount ?? 0 })), qty: i.quantity, total: i.lineTotal
 });
 export { icon };

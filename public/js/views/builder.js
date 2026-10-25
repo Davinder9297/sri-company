@@ -22,7 +22,7 @@ export default async function builder(ctx) {
 
   const html = `
   <div class="wrap">
-    <div class="crumbs" style="padding-top:22px"><a href="/" data-link>Home</a><span>/</span><a href="/shop" data-link>Gift boxes</a><span>/</span><a href="/shop?size=${esc(p.size)}" data-link>${esc(sizeLabel(p.size))}</a><span>/</span>${esc(p.design)}</div>
+    <div class="crumbs" style="padding-top:22px"><a href="/" data-link>Home</a><span>/</span><a href="/shop" data-link>Gift boxes</a><span>/</span><a href="/shop/${encodeURIComponent(p.size)}" data-link>${esc(sizeLabel(p.size))}</a><span>/</span>${esc(p.design)}</div>
     <div class="builder" id="builder">
       <div class="b-visual">
         <div class="b-photo">${boxPhoto(p, { loading: 'eager' })}</div>
@@ -83,6 +83,7 @@ export default async function builder(ctx) {
       $('#sum', root).innerHTML = `
         <div class="line"><span>Empty box (${esc(p.design)})</span><span>${money(c.boxPrice)}</span></div>
         <div class="line"><span>${fillLabel}</span><span>${money(c.fillTotal)}</span></div>
+        <div class="line"><span>Packing</span><span>${money(c.packing)}</span></div>
         <div class="line"><span>Price per box</span><span>${money(c.unit)}</span></div>
         <div class="line"><span>Quantity</span><span class="stepper"><button type="button" id="qm" ${b.qty <= 1 ? 'disabled' : ''} aria-label="Fewer boxes">−</button><output>${b.qty}</output><button type="button" id="qp" ${b.qty >= 99 ? 'disabled' : ''} aria-label="More boxes">+</button></span></div>
         <div class="line total"><span>Total</span><b>${money(c.total)}</b></div>`;

@@ -1,14 +1,16 @@
 import { $, $$, esc, money, grams, sizeLabel, icon, api, toast } from '../util.js';
-import { state, calc, cartTotal, cartClear } from '../state.js';
+import { state, calc, cartTotals, cartClear } from '../state.js';
 import { boxPhoto, bill, billFromCalc } from '../ui.js';
 
 export default async function checkout(ctx) {
   if (!state.cart.length) {
     return { title: 'Checkout', html: `<div class="wrap"><div class="empty" style="margin:64px 0"><h2 style="margin-bottom:.6rem">Your bag is empty</h2><p>Choose a gift box and fill it before checking out.</p><a class="btn btn-primary" href="/shop" data-link>Browse gift boxes</a></div></div>` };
   }
-  const total = cartTotal();
-  const boxesTotal = Math.round(state.cart.reduce((s, i) => s + calc(i).boxPrice * i.quantity, 0) * 100) / 100;
-  const fillTotal = Math.round((total - boxesTotal) * 100) / 100;
+  const T = cartTotals(), total = T.total;
+  const r2 = n => Math.round(n * 100) / 100;
+  const boxesTotal = r2(state.cart.reduce((s, i) => s + calc(i).boxPrice * i.quantity, 0));
+  const packTotal = r2(state.cart.reduce((s, i) => s + calc(i).packing * i.quantity, 0));
+  const fillTotal = r2(T.subtotal - boxesTotal - packTotal);
   const cod = state.store.codEnabled;
   const html = `
   <section class="page-head"><div class="wrap"><div class="crumbs"><a href="/" data-link>Home</a><span>/</span>Checkout</div><h1 style="font-size:clamp(2.2rem,4vw,3.2rem)">Checkout</h1></div></section>
@@ -36,7 +38,7 @@ export default async function checkout(ctx) {
     </div>
     <aside class="panel summary" aria-label="Order summary"><h3>Order summary</h3>
       ${state.cart.map(item => { const c = calc(item); return `<div class="o-item"><div class="o-head"><div class="pic">${boxPhoto(c.product, { sm: true })}</div><div><b>${esc(c.product.design)} · ${esc(sizeLabel(c.product.size))}</b><small>${c.totalGrams} g of fillings · ${item.quantity} ${item.quantity > 1 ? 'boxes' : 'box'}</small></div><b>${money(c.total)}</b></div>${bill(billFromCalc(c, item.quantity), { compact: true })}</div>`; }).join('')}
-      <div class="sum"><div class="line"><span>Boxes</span><span>${money(boxesTotal)}</span></div><div class="line"><span>Fillings</span><span>${money(fillTotal)}</span></div><div class="line"><span>Subtotal</span><span>${money(total)}</span></div><div class="line"><span>Delivery</span><span class="muted">Confirmed by our team</span></div><div class="line total"><span>Total</span><b>${money(total)}</b></div></div>
+      <div class="sum"><div class="line"><span>Boxes</span><span>${money(boxesTotal)}</span></div><div class="line"><span>Fillings</span><span>${money(fillTotal)}</span></div><div class="line"><span>Packing</span><span>${money(packTotal)}</span></div><div class="line"><span>Subtotal</span><span>${money(T.subtotal)}</span></div><div class="line"><span>GST (${T.pct}%)</span><span>${money(T.gst)}</span></div><div class="line"><span>Delivery</span><span class="muted">Confirmed by our team</span></div><div class="line total"><span>Total</span><b>${money(total)}</b></div></div>
       <div id="err" class="form-error hidden" role="alert" style="margin-top:14px"></div>
       <button class="btn btn-accent btn-block" id="place" type="submit" style="margin-top:18px">Place order · ${money(total)}</button>
       <p class="muted" style="font-size:.8rem;margin:12px 0 0">Prices are re-checked on our server when you place the order. Your details are used only to process and deliver this order.</p>

@@ -71,3 +71,9 @@ Retail box prices were set from your purchase cost × 1.3 (rounded to ₹5) — 
 - To change any box, edit `compartments` in `data/products.json` and bump `CATALOGUE_VERSION` in `server.js`.
 
 - Fillings hidden from customers (`"active": false` in `data/fillings.json`): Almond Roca, Almond Florentine Round, and every individual flavour (Achari/Barbeque/... Kaju, Masala/Paan/... Badam, Bubble Gum/... Kishmish, Coated). Customers see only Flavoured Badam, Flavoured Kaju, Flavoured Kishmish and Flavoured Pista. They can be switched back on in Admin > Fillings, but the next catalogue refresh follows the JSON file.
+
+## Update: categories, GST and packing (v5)
+
+* **Box categories:** `/shop` lists categories (sizes); each opens `/shop/<size>` with only that category's boxes.
+* **Our Range** (`/our-range`, old `/fillings` still works): fillings in four categories — Regular, Flavoured, Berries & Seeds, Bites & Chocolates — alternating left/right, no prices. Fillings not on the sheet are hidden.
+* **Billing:** box + fillings (by weight) + packing per box, then 5% GST on the subtotal. Packing per size is in `data/products.json` (`packingPrice`); the GST rate is the `gstPercent` setting (default 5).

@@ -1,5 +1,5 @@
 import { $, esc, money, sizeLabel, grams, icon } from './util.js';
-import { state, calc, cartQty, cartRemove, cartTotal, cartCount, onCart } from './state.js';
+import { state, calc, cartQty, cartRemove, cartTotal, cartTotals, cartCount, onCart } from './state.js';
 import { boxPhoto, bill, billFromCalc } from './ui.js';
 import { openOverlay, closeOverlay, overlayOpen } from './overlay.js';
 
@@ -26,7 +26,9 @@ function body() {
   }).join('');
   return `<div class="d-body">${items}</div>
     <div class="d-foot">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-weight:600">Subtotal <small class="muted" style="font-weight:400">(boxes + fillings)</small></span><span class="price">${money(cartTotal())}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-weight:600">Subtotal <small class="muted" style="font-weight:400">(boxes + fillings + packing)</small></span><span>${money(cartTotals().subtotal)}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px"><span>GST (${cartTotals().pct}%)</span><span>${money(cartTotals().gst)}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;border-top:1px solid var(--line);padding-top:8px"><span style="font-weight:700">Total</span><span class="price">${money(cartTotals().total)}</span></div>
       <p class="muted" style="font-size:.82rem;margin:0 0 14px">Delivery charges, if any, are confirmed by our team. You will see the payment details after placing the order.</p>
       <a href="/checkout" class="btn btn-accent btn-block" data-link data-close>Proceed to checkout</a>
     </div>`;

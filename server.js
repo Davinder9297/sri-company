@@ -13,7 +13,7 @@ import { linkLocalPhotos, cacheRemoteImages, applyBasePhotos } from './lib/image
 import { seedCatalogue } from './seed.js';
 import { normalizeProductPhotos } from './lib/normalize.js';
 
-const CATALOGUE_VERSION = '2026-diwali-v5';
+const CATALOGUE_VERSION = '2026-diwali-v6';
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC = path.join(ROOT, 'public');
 const app = express();
@@ -99,7 +99,7 @@ const adminProduct = p => ({
   ...publicProduct(p), purchasePrice: p.purchase_price, stock: p.stock, trackStock: !!p.track_stock,
   active: !!p.active, category: p.category
 });
-const publicFilling = f => ({ id: f.id, name: f.name, group: f.grp, ratePerKg: f.rate_per_kg, image: f.image || '' });
+const publicFilling = f => ({ id: f.id, name: f.name, showInRange: f.show_range !== 0, group: f.grp, ratePerKg: f.rate_per_kg, image: f.image || '' });
 const adminFilling = f => ({ ...publicFilling(f), active: !!f.active });
 
 function paymentInfo() {
@@ -281,9 +281,9 @@ app.patch('/api/admin/fillings/:id', auth, (req, res) => {
   const f = db.prepare('SELECT * FROM fillings WHERE id=?').get(req.params.id);
   if (!f) return res.status(404).json({ error: 'Filling not found.' });
   const b = req.body || {};
-  db.prepare('UPDATE fillings SET name=?,grp=?,rate_per_kg=?,active=?,image=? WHERE id=?')
+  db.prepare('UPDATE fillings SET name=?,grp=?,rate_per_kg=?,active=?,show_range=?,image=? WHERE id=?')
     .run(String(b.name ?? f.name), String(b.group ?? f.grp), Math.max(0, num(b.ratePerKg, f.rate_per_kg)),
-      b.active === undefined ? f.active : (b.active ? 1 : 0), String(b.image ?? f.image ?? ''), f.id);
+      b.active === undefined ? f.active : (b.active ? 1 : 0), b.showInRange === undefined ? (f.show_range ?? 1) : (b.showInRange ? 1 : 0), String(b.image ?? f.image ?? ''), f.id);
   res.json({ ok: true });
 });
 app.delete('/api/admin/fillings/:id', auth, (req, res) => { db.prepare('UPDATE fillings SET active=0 WHERE id=?').run(req.params.id); res.json({ ok: true }); });

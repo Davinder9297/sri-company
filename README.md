@@ -77,3 +77,7 @@ Retail box prices were set from your purchase cost × 1.3 (rounded to ₹5) — 
 * **Box categories:** `/shop` lists categories (sizes); each opens `/shop/<size>` with only that category's boxes.
 * **Our Range** (`/our-range`, old `/fillings` still works): fillings in four categories — Regular, Flavoured, Berries & Seeds, Bites & Chocolates — alternating left/right, no prices. Fillings not on the sheet are hidden.
 * **Billing:** box + fillings (by weight) + packing per box, then 5% GST on the subtotal. Packing per size is in `data/products.json` (`packingPrice`); the GST rate is the `gstPercent` setting (default 5).
+
+## Update (v6)
+* Admin → Fillings: the name is editable, and "Show on Our Range" controls whether a filling is listed on the public Our Range page (hidden ones still work in boxes).
+* Every box capacity is 25% higher (200 g → 250 g, rounded down to a 25 g step).

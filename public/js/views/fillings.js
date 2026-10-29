@@ -11,9 +11,9 @@ const BLURB = {
 
 /** "Our Range": one row per category, alternating photo left/right. No prices. */
 export default async function ourRange() {
-  const cats = [...new Set(state.fillings.map(f => f.group))];
+  const cats = [...new Set(state.fillings.filter(f => f.showInRange).map(f => f.group))];
   const rows = cats.map((g, i) => {
-    const items = state.fillings.filter(f => f.group === g);
+    const items = state.fillings.filter(f => f.group === g && f.showInRange);
     const left = i % 2 === 0;
     const withPic = items.filter(f => f.image).slice(0, 4);
     const media = `<div class="rng-media${withPic.length < 2 ? ' one' : ''}">${withPic.length ? withPic.map(f => `<div class="rng-ph">${fillingPhoto(f)}</div>`).join('') : `<div class="rng-ph rng-empty"><b>${esc(g)}</b></div>`}</div>`;

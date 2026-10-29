@@ -57,11 +57,12 @@ function products() {
 }
 function fillings() {
   return `<div class="bar-row"><h2>Fillings &amp; rates</h2><button class="btn btn-primary btn-sm" id="addF">+ Add filling</button></div>
-  <p class="muted">Rate is ₹ per kg. Photos can also be dropped into <code>public/uploads/fillings/</code> named like the filling id (e.g. <code>badam.jpg</code>).</p>
-  <div class="card scroll"><table class="tbl"><thead><tr><th>Filling</th><th>Type</th><th>₹ per kg</th><th>Active</th><th>Photo</th><th></th></tr></thead><tbody>${data.fillings.map(f => `<tr data-fl="${esc(f.id)}" style="${f.active ? '' : 'opacity:.55'}">
-    <td><span class="thumb">${f.image ? `<img src="${esc(f.image)}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</span><b>${esc(f.name)}</b><span class="tiny">${esc(f.id)}</span></td>
+  <p class="muted">Rate is ₹ per kg. Tick “Show on Our Range” to list a filling name on the public Our Range page; untick to hide it there (it can still be used in boxes). Photos can also be dropped into <code>public/uploads/fillings/</code> named like the filling id (e.g. <code>badam.jpg</code>).</p>
+  <div class="card scroll"><table class="tbl"><thead><tr><th>Filling name</th><th>Type</th><th>₹ per kg</th><th>Active</th><th>Show on Our Range</th><th>Photo</th><th></th></tr></thead><tbody>${data.fillings.map(f => `<tr data-fl="${esc(f.id)}" style="${f.active ? '' : 'opacity:.55'}">
+    <td><span class="thumb">${f.image ? `<img src="${esc(f.image)}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</span><input type="text" data-f="name" value="${esc(f.name)}" style="min-width:150px"><span class="tiny">${esc(f.id)}</span></td>
     <td><input type="text" data-f="group" value="${esc(f.group)}"></td><td><input type="number" data-f="ratePerKg" min="0" step="1" value="${f.ratePerKg}"></td>
     <td><input type="checkbox" data-f="active" ${f.active ? 'checked' : ''}></td>
+    <td><input type="checkbox" data-f="showInRange" ${f.showInRange ? 'checked' : ''}></td>
     <td><label class="up">Upload<input hidden type="file" accept="image/jpeg,image/png,image/webp" data-up="filling" data-id="${esc(f.id)}"></label></td>
     <td><button class="btn btn-primary btn-sm" data-save-f>Save</button></td></tr>`).join('')}</tbody></table></div>`;
 }

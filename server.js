@@ -13,20 +13,14 @@ import { linkLocalPhotos, cacheRemoteImages, applyBasePhotos } from './lib/image
 import { seedCatalogue } from './seed.js';
 import { normalizeProductPhotos } from './lib/normalize.js';
 
-const CATALOGUE_VERSION = '2026-diwali-v6';
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC = path.join(ROOT, 'public');
 const app = express();
 
-/* ---------- first-run setup ---------- */
-if (!db.prepare('SELECT COUNT(*) n FROM products').get().n) {
+/* ---------- catalogue: add new boxes/fillings and apply changed JSON values (Admin edits always win, see seed.js) ---------- */
+{
   const r = seedCatalogue();
-  console.log(`First run: loaded ${r.products} gift boxes and ${r.fillings} fillings.`);
-}
-if (getSetting('catalogueVersion', '') !== CATALOGUE_VERSION) {
-  const r = seedCatalogue({ refreshPrices: true });
-  setSetting('catalogueVersion', CATALOGUE_VERSION);
-  console.log(`Catalogue updated to ${CATALOGUE_VERSION}: ${r.products} boxes, ${r.fillings} fillings (filling rates and box prices refreshed from data/*.json).`);
+  if (r.added || r.updated) console.log(`Catalogue from data/*.json: ${r.added} added, ${r.updated} updated.`);
 }
 const admin = ensureAdmin();
 if (process.env.NODE_ENV === 'production' && (admin.usingDefaultPassword || !process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 24)) {

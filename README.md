@@ -49,7 +49,7 @@ Retail box prices were set from your purchase cost × 1.3 (rounded to ₹5) — 
 ## 2026 Diwali catalogue update
 
 - **Boxes** (`data/products.json`, 117 entries) and **filling rates** (`data/fillings.json`, 59 entries) come from `New_Diwali_Boxes_Working_File_-_2026.xlsx` (copy in `data/source-catalogue.xlsx`).
-- On the first start after this update the server refreshes all filling rates and box prices from those two JSON files once (`CATALOGUE_VERSION` in `server.js`). After that, Admin edits are kept. To push new Excel prices later, edit the JSON and bump `CATALOGUE_VERSION`.
+- On every start the server adds new boxes/fillings from those two JSON files and applies JSON values that changed since they were last applied. **Admin edits always win:** a value changed in Admin is never overwritten from the JSON (see `seed.js`). To push new Excel prices, edit the JSON and deploy.
 - **Retail box price**: boxes with a price in the RATES sheet use it. The 2026 cardboard and special boxes use cost × 1.3, rounded to ₹5. Change any price in Admin → Gift boxes.
 - **Boxes without a photo are hidden from the shop** until you add one (Admin → Gift boxes → upload, or drop `public/uploads/products/<code>.jpg`, e.g. `s01-2x1.jpg`).
 - **Photos**: each filling photo is `public/assets/fillings/<filling-id>.jpg`. Shared base photos are used only for fillings without their own.
@@ -68,9 +68,9 @@ Retail box prices were set from your purchase cost × 1.3 (rounded to ₹5) — 
 - Normal boxes (`Nx1`): N compartments. Cardboard sizes follow the PART column (8×8 = 4, 8×12 = 6, 10×10 = 4, 10×15 = 6, 12×12 = 4, 12×18 = 6).
 - Layouts written `A+B` (4+2, 4+1, 4+4, 2+2): **A** = fillable jars/compartments. The extra B items are candles or a chocolate tray, not dry-fruit compartments. Example: 1205/1215/1225 = 4 jars (+ 2 candle tins).
 - MN29 (11×11) has 6 cells. 404 (10×15) is an open tray; set to 6 partitions at ₹450 as requested.
-- To change any box, edit `compartments` in `data/products.json` and bump `CATALOGUE_VERSION` in `server.js`.
+- To change any box, edit `compartments` in `data/products.json` and deploy (a value already changed in Admin stays as it is).
 
-- Fillings hidden from customers (`"active": false` in `data/fillings.json`): Almond Roca, Almond Florentine Round, and every individual flavour (Achari/Barbeque/... Kaju, Masala/Paan/... Badam, Bubble Gum/... Kishmish, Coated). Customers see only Flavoured Badam, Flavoured Kaju, Flavoured Kishmish and Flavoured Pista. They can be switched back on in Admin > Fillings, but the next catalogue refresh follows the JSON file.
+- Fillings hidden from customers (`"active": false` in `data/fillings.json`): Almond Roca, Almond Florentine Round, and every individual flavour (Achari/Barbeque/... Kaju, Masala/Paan/... Badam, Bubble Gum/... Kishmish, Coated). Customers see only Flavoured Badam, Flavoured Kaju, Flavoured Kishmish and Flavoured Pista. They can be switched back on in Admin > Fillings; Admin changes are kept.
 
 ## Update: categories, GST and packing (v5)
 
